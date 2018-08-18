@@ -4,6 +4,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import javax.persistence.*;
+import javax.validation.constraints.NotBlank;
 import java.util.Collection;
 import java.util.Set;
 
@@ -13,8 +14,11 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Integer id;
+    @NotBlank(message = "Username shouldn't be empty")
     private String username;
+    @NotBlank(message = "Password shouldn't be empty")
     private String password;
+    @NotBlank(message = "Email shouldn't be empty")
     private String email;
     @ElementCollection(targetClass = Role.class, fetch = FetchType.EAGER)
     @CollectionTable(name = "user_role",joinColumns = @JoinColumn(name = "id"))/**Будет в отдельной таблице.Будет соединяться с текущей таблицей через id*/

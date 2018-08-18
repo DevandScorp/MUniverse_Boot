@@ -30,7 +30,7 @@
 
         <#if user??>
             <div class="navbar-text mr-4">${user.getUsername()}</div>
-            <img src="/img/${user.getId()}/logo.jpg" alt="..." class="rounded-circle icon">
+            <#if user.getId()??><img src="/img/${user.getId()}/logo.jpg" alt="..." class="rounded-circle icon"></#if>
         </#if>
 
 

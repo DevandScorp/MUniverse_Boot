@@ -44,7 +44,9 @@
     <link rel="stylesheet" type="text/css" href="/static/css/app.css"/>
 </head>
 <body>
+
     <#include "parts/navbar.ftl">
+<#if !user.activationCode??>
     <div class="container">
     <div class="text-center mt-5"><button type = "button" class = "hide-show-form btn btn-primary" >Add song</button></div>
     <div class="form mt-2">
@@ -52,7 +54,7 @@
             <form method = "POST" action = "/playlist" enctype="multipart/form-data">
                 <div class="form-group">
                     <p class="text-primary"><label for="exampleInputPassword1">Choose your file:</label></p>
-                    <input type="file" name = "file" accept=".mp3" class="form-control" placeholder="Choose your song">
+                    <input type="file" required name = "file" accept=".mp3" class="form-control" placeholder="Choose your song">
                 </div>
                 <input type = "hidden" name = "_csrf" value = "${_csrf.token}"/>
                 <button type="submit" class="btn btn-primary">Add song</button>
@@ -114,6 +116,9 @@
             <img src="/static/img/next.svg"/>
         </div>
     </div>
+<#else>
+<p class="text-center text-danger">Your email is not verified.Please,verify it and then come back.</p>
+</#if>
 <script type="text/javascript">
     Amplitude.init({
         "songs": [

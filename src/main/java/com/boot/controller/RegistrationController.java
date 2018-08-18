@@ -9,12 +9,14 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.validation.Valid;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collections;
@@ -54,11 +56,18 @@ public class RegistrationController {
     }
 
     @PostMapping("/registration")
-    public String addUser(User user, @RequestParam("file") MultipartFile file,Map<String, Object> model){
-
+    public String addUser(@RequestParam("file") MultipartFile file,
+                          @Valid User user,
+                          BindingResult bindingResult,
+                          Model model){
+        if(bindingResult.hasErrors()){
+            Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
+            model.mergeAttributes(errors);
+            return "registration";
+        }
         User userFromDB = userRepository.findByUsername(user.getUsername());
         if(userFromDB!=null){
-            model.put("message","User exists");
+            model.addAttribute("message","User exists");
             return registration();
         }
         else{
@@ -73,14 +82,15 @@ public class RegistrationController {
             userRepository.save(user);
         }
         if(file!=null){
-            uploadPath+="/"+user.getId();
-            File uploadDir = new File(uploadPath);
+            System.out.println(user.getId());
+            String uPath = uploadPath+"/"+user.getId();
+            File uploadDir = new File(uPath);
             if(!uploadDir.exists()){
                 uploadDir.mkdir();
 
             }
             try {
-                File file1 = new File("../../../../../../../../../../"+ uploadPath + "/" + "logo.jpg");
+                File file1 = new File("../../../../../../../../../../"+ uPath + "/" + "logo.jpg");
                 file.transferTo(file1);
             } catch (IOException e) {
                 e.printStackTrace();
