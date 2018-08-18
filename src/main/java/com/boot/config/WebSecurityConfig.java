@@ -18,7 +18,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
                 .authorizeRequests()
-                .antMatchers("/registration","/static/**").permitAll()/**Эта команда показывает,какие сервлеты не будут требовать доступа к
+                .antMatchers("/registration","/static/**","/activate/**").permitAll()/**Эта команда показывает,какие сервлеты не будут требовать доступа к
          аутентификации*/
                 .anyRequest().authenticated()
                 .and()

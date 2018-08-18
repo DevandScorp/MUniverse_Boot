@@ -7,6 +7,7 @@
         <#--<input type = "hidden" name = "_csrf" value = "${_csrf.token}"/>-->
         <#--<div><input type="submit" value="Log In"/></div>-->
     <#--</form>-->
+<div class="text-center"><p class="text-primary">${message?ifExists}</p></div>
 <div class="mt-5">
     <form action="/login" method="post">
         <div class="form-group">
