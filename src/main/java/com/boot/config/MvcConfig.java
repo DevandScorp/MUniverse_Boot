@@ -10,7 +10,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @Configuration
 public class MvcConfig implements WebMvcConfigurer {
-
+    public static final String CAPTCHA_URL = "https://www.google.com/recaptcha/api/siteverify?secret=%s&response=%s";
+    @Bean
+    public RestTemplate getRestTemplate(){
+        return new RestTemplate();
+    }
     @Value("${upload.path}")
     private String uploadPath;
 

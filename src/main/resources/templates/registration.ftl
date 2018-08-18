@@ -28,6 +28,14 @@
             <p class="text-primary"><label for="exampleInputPassword1">Icon image:</label></p>
             <input type="file" required multiple accept="image/jpeg" name = "file" class="form-control" id="exampleInputPassword1" placeholder="Password">
         </div>
+        <div>
+            <div class="g-recaptcha" data-sitekey="6LdW7GkUAAAAAJ1qmQ3ROtO-PfLShvWllc_ePr77"></div>
+        <#if captchaError??>
+                <div class="alert alert-danger">
+                    ${captchaError}
+                </div>
+        </#if>
+        </div>
         <button type="submit" class="btn btn-primary">Submit</button>
     </form>
 </div>

@@ -1,5 +1,6 @@
 package com.boot.controller;
 
+import com.boot.entity.CaptchaResponseDto;
 import com.boot.entity.Role;
 import com.boot.entity.User;
 import com.boot.repository.UserRepository;
@@ -14,6 +15,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.validation.Valid;
@@ -23,6 +25,8 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.UUID;
 
+import static com.boot.config.MvcConfig.CAPTCHA_URL;
+
 @Controller
 public class RegistrationController {
     @Value("${upload.path}")
@@ -31,6 +35,10 @@ public class RegistrationController {
     private UserRepository userRepository;
     @Autowired
     private MailSender mailSender;
+    @Value("${recaptcha.secret}")
+    private String secret;
+    @Autowired
+    private RestTemplate restTemplate;
     @GetMapping("/registration")
     public String registration(){
         return "registration";
@@ -56,11 +64,21 @@ public class RegistrationController {
     }
 
     @PostMapping("/registration")
-    public String addUser(@RequestParam("file") MultipartFile file,
-                          @Valid User user,
-                          BindingResult bindingResult,
-                          Model model){
-        if(bindingResult.hasErrors()){
+    public String addUser(@RequestParam("g-recaptcha-response") String recaptchaResponse,
+                            @RequestParam("file") MultipartFile file,
+                            @Valid User user,
+                            BindingResult bindingResult,
+                            Model model){
+        String format = String.format(CAPTCHA_URL, secret, recaptchaResponse);
+        CaptchaResponseDto captchaResponseDto = restTemplate.postForObject(format,
+                Collections.emptyList()/**Это то,что мы отдаем нашим запросом.Т.к. тут нам ничего не надо,то просто
+                 оставляем пустой лист*/,
+                CaptchaResponseDto.class
+        );
+        if(!captchaResponseDto.isSuccess()){
+            model.addAttribute("captchaError","fill Captcha");
+        }
+        if(bindingResult.hasErrors() || !captchaResponseDto.isSuccess()){
             Map<String, String> errors = ControllerUtils.getErrors(bindingResult);
             model.mergeAttributes(errors);
             return "registration";
