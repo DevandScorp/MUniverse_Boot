@@ -38,7 +38,7 @@ public class MusicController {
     @GetMapping("/playlist")
     public String getPlayList(@AuthenticationPrincipal User user, Model model){
         model.addAttribute("user",user);
-        Iterable<Music> all = musicRepository.findAll();
+        Iterable<Music> all = musicRepository.findByAuthor(user);
         model.addAttribute("playlist",all);
         return "playlist";
     }

@@ -1,8 +1,11 @@
 package com.boot.repository;
 
 import com.boot.entity.Music;
+import com.boot.entity.User;
 import org.springframework.data.repository.CrudRepository;
 
-public interface MusicRepository extends CrudRepository<Music,Long> {
+import java.util.List;
 
+public interface MusicRepository extends CrudRepository<Music,Long> {
+    List<Music> findByAuthor(User user);
 }

@@ -8,6 +8,7 @@ import com.boot.service.MailSender;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -39,6 +40,8 @@ public class RegistrationController {
     private String secret;
     @Autowired
     private RestTemplate restTemplate;
+    @Autowired
+    private PasswordEncoder passwordEncoder;
     @GetMapping("/registration")
     public String registration(){
         return "registration";
@@ -89,6 +92,7 @@ public class RegistrationController {
             return registration();
         }
         else{
+            user.setPassword(passwordEncoder.encode(user.getPassword()));
             user.setActivationCode(UUID.randomUUID().toString());
             user.setRoles(Collections.singleton(Role.USER));
             if(!StringUtils.isEmpty(user.getEmail())){
