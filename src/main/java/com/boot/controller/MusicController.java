@@ -3,6 +3,8 @@ package com.boot.controller;
 import com.boot.entity.Music;
 import com.boot.entity.User;
 import com.boot.repository.MusicRepository;
+import com.mpatric.mp3agic.ID3v2;
+import com.mpatric.mp3agic.Mp3File;
 import org.apache.tika.exception.TikaException;
 import org.apache.tika.metadata.Metadata;
 import org.apache.tika.parser.ParseContext;
@@ -21,10 +23,9 @@ import org.xml.sax.ContentHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import javax.imageio.ImageIO;
+import java.awt.image.BufferedImage;
+import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
 
@@ -37,19 +38,39 @@ public class MusicController {
     @GetMapping("/playlist")
     public String getPlayList(@AuthenticationPrincipal User user, Model model){
         model.addAttribute("user",user);
-
+        Iterable<Music> all = musicRepository.findAll();
+        model.addAttribute("playlist",all);
         return "playlist";
     }
+    private static void extractImageFromFile(String srcFile,String to) throws Exception {
+        Mp3File song = new Mp3File(srcFile);
+        if (song.hasId3v2Tag()){
+            ID3v2 id3v2tag = song.getId3v2Tag();
+            byte[] imageData = id3v2tag.getAlbumImage();
+            //converting the bytes to an image
+            BufferedImage img = ImageIO.read(new ByteArrayInputStream(imageData));
+            File f = new File(to);
+            String format = "jpg";
+            ImageIO.write(img, format, f);
+        }
 
+    }
     @PostMapping("/playlist")
     public String getPlayList(@AuthenticationPrincipal User user,
                               @RequestParam("file") MultipartFile file){
         Music music = new Music();
         if(file!=null){
             try {
-                music.setFilename(file.getOriginalFilename());
+                music.setFilename(file.getOriginalFilename().substring(0,file.getOriginalFilename().indexOf(".mp3")));
                 File file1 = new File("../../../../../../../../../../"+ uploadPath + "/Songs/" + file.getOriginalFilename());
                 file.transferTo(file1);
+                try {
+                    extractImageFromFile("../../../../../../../../../../"+ uploadPath + "/Songs/" + file.getOriginalFilename(),
+                                            "../../../../../../../../../../"+ uploadPath + "/Songs/" +
+                                                    file.getOriginalFilename().substring(0,file.getOriginalFilename().indexOf(".mp3"))+".jpg");
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
                 try (InputStream input = new FileInputStream(file1)) {
                     ContentHandler handler = new DefaultHandler();
                     Metadata metadata = new Metadata();
@@ -74,6 +95,6 @@ public class MusicController {
                 e.printStackTrace();
             }
         }
-        return "playlist";
+        return "redirect:/playlist";
     }
 }
