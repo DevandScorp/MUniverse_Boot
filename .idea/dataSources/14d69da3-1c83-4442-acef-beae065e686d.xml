@@ -1119,100 +1119,169 @@
       <Charset>utf8mb4</Charset>
       <DefaultForCharset>0</DefaultForCharset>
     </collation>
-    <table id="282" parent="3" name="hibernate_sequence">
+    <table id="282" parent="3" name="flyway_schema_history"/>
+    <table id="283" parent="3" name="hibernate_sequence">
       <Engine>MyISAM</Engine>
     </table>
-    <table id="283" parent="3" name="music">
+    <table id="284" parent="3" name="music">
       <Engine>MyISAM</Engine>
     </table>
-    <table id="284" parent="3" name="user_role">
+    <table id="285" parent="3" name="user_role">
       <Engine>MyISAM</Engine>
     </table>
-    <table id="285" parent="3" name="users">
+    <table id="286" parent="3" name="users">
       <Engine>MyISAM</Engine>
     </table>
-    <column id="286" parent="282" name="next_val">
+    <column id="287" parent="282" name="installed_rank">
+      <Position>1</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="288" parent="282" name="version">
+      <Position>2</Position>
+      <DataType>varchar(50)|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="289" parent="282" name="description">
+      <Position>3</Position>
+      <DataType>varchar(200)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="290" parent="282" name="type">
+      <Position>4</Position>
+      <DataType>varchar(20)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="291" parent="282" name="script">
+      <Position>5</Position>
+      <DataType>varchar(1000)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="292" parent="282" name="checksum">
+      <Position>6</Position>
+      <DataType>int(11)|0s</DataType>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="293" parent="282" name="installed_by">
+      <Position>7</Position>
+      <DataType>varchar(100)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="294" parent="282" name="installed_on">
+      <Position>8</Position>
+      <DataType>timestamp|0s</DataType>
+      <NotNull>1</NotNull>
+      <DefaultExpression>CURRENT_TIMESTAMP</DefaultExpression>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="295" parent="282" name="execution_time">
+      <Position>9</Position>
+      <DataType>int(11)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <column id="296" parent="282" name="success">
+      <Position>10</Position>
+      <DataType>tinyint(1)|0s</DataType>
+      <NotNull>1</NotNull>
+      <ColumnKind>normal</ColumnKind>
+    </column>
+    <index id="297" parent="282" name="flyway_schema_history_s_idx">
+      <ColNames>success</ColNames>
+      <Type>btree</Type>
+    </index>
+    <key id="298" parent="282" name="PRIMARY">
+      <NameSurrogate>1</NameSurrogate>
+      <ColNames>installed_rank</ColNames>
+      <Primary>1</Primary>
+    </key>
+    <column id="299" parent="283" name="next_val">
       <Position>1</Position>
       <DataType>bigint(20)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="287" parent="283" name="id">
+    <column id="300" parent="284" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="288" parent="283" name="artist">
+    <column id="301" parent="284" name="artist">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="289" parent="283" name="filename">
+    <column id="302" parent="284" name="filename">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="290" parent="283" name="song">
+    <column id="303" parent="284" name="song">
       <Position>4</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="291" parent="283" name="user_id">
+    <column id="304" parent="284" name="user_id">
       <Position>5</Position>
       <DataType>int(11)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="292" parent="283" name="FKd4k1afl8dooh2644f3ei3nv9u">
+    <index id="305" parent="284" name="FKd4k1afl8dooh2644f3ei3nv9u">
       <ColNames>user_id</ColNames>
       <Type>btree</Type>
     </index>
-    <key id="293" parent="283" name="PRIMARY">
+    <key id="306" parent="284" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
     </key>
-    <column id="294" parent="284" name="id">
+    <column id="307" parent="285" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="295" parent="284" name="roles">
+    <column id="308" parent="285" name="roles">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <index id="296" parent="284" name="FKm01t79r1jd43urtdfwr98po4q">
+    <index id="309" parent="285" name="FKm01t79r1jd43urtdfwr98po4q">
       <ColNames>id</ColNames>
       <Type>btree</Type>
     </index>
-    <column id="297" parent="285" name="id">
+    <column id="310" parent="286" name="id">
       <Position>1</Position>
       <DataType>int(11)|0s</DataType>
       <NotNull>1</NotNull>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="298" parent="285" name="activation_code">
+    <column id="311" parent="286" name="activation_code">
       <Position>2</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="299" parent="285" name="email">
+    <column id="312" parent="286" name="email">
       <Position>3</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="300" parent="285" name="password">
+    <column id="313" parent="286" name="password">
       <Position>4</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <column id="301" parent="285" name="username">
+    <column id="314" parent="286" name="username">
       <Position>5</Position>
       <DataType>varchar(255)|0s</DataType>
       <ColumnKind>normal</ColumnKind>
     </column>
-    <key id="302" parent="285" name="PRIMARY">
+    <key id="315" parent="286" name="PRIMARY">
       <NameSurrogate>1</NameSurrogate>
       <ColNames>id</ColNames>
       <Primary>1</Primary>
